@@ -1,8 +1,10 @@
+# import libraries
 library(readxl)
 library(dplyr)
 library(ggplot2)
 library(ggimage)
 
+# read manually created excel with different sheets for winners, logos and league logos
 winners <- read_excel("champions_of_different_leagues.xlsx", sheet = "winners")
 logos <- read_excel("champions_of_different_leagues.xlsx", sheet = "logos")
 league_logos <- read_excel("champions_of_different_leagues.xlsx", sheet = "league_logos")
@@ -28,6 +30,7 @@ winners <- winners %>%
     TRUE                 ~ 0.015  
   ))
 
+# manually order leagues
 league_order <- c("Turkish Super Lig", "Danish Superliga", "Premier League",
                   "Bundesliga", "La Liga", "Ligue 1", 'Serie A') 
 
@@ -44,7 +47,7 @@ league_logo_df <- winners %>%
   distinct(League, LeagueLogo) %>%
   mutate(Season = "League")
 
-# --- THE TUNED PLOT ---
+# create the ggplot with two layers: league logos and winner logos, with the specified aesthetics and theme
 p <- ggplot(winners, aes(x = League, y = Season)) +
   # League logos layer
   geom_image(
@@ -74,5 +77,5 @@ p <- ggplot(winners, aes(x = League, y = Season)) +
     panel.grid.minor = element_blank()
   )
 
-# Save the final square canvas
+# Save the final plot
 ggsave("images/champions_of_different_leagues.png", plot = p, width = 12, height = 12, dpi = 300, bg = "white")
