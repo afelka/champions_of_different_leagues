@@ -18,11 +18,13 @@ winners <- winners %>%
     LeagueLogo = file.path("images", LeagueLogo)
   )
 
-# --- TARGET JUVENTUS AND MILAN FOR RESIZING ---
+# --- decrease size of Juventus and Milan logos as they are larger ---
+# --- increase size of AGF logo as that's the main motivation to create this visualization ---
 winners <- winners %>%
   mutate(LogoSize = case_when(
     Winner == "Juventus" ~ 0.01,
     Winner == "Milan"    ~ 0.01,
+    Winner == 'AGF'      ~ 0.02,
     TRUE                 ~ 0.015  
   ))
 
